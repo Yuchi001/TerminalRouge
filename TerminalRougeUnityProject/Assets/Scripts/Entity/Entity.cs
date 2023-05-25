@@ -22,7 +22,7 @@ public abstract class Entity: MonoBehaviour
 
     protected float GetStat(EStatType statType)
     {
-        var retVal = modifiers.GetStatModifier(statType, Stats[statType].currentLevel);
+        var retVal = modifiers.GetStatValue(statType, Stats[statType].currentLevel);
         return retVal ?? 1;
     }
 
@@ -38,7 +38,7 @@ public abstract class Entity: MonoBehaviour
 
     protected int GetNextLevelCount(EStatType statType)
     {
-        var retVal = modifiers.GetStatNextLevelCount(statType, Stats[statType].currentLevel);
+        var retVal = modifiers.GetStatThreshold(statType, Stats[statType].currentLevel);
         return retVal ?? 1;
     }
 

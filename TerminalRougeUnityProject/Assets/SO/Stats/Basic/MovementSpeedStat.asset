@@ -10,6 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cb84e9b0aad43368976238571e336f6, type: 3}
-  m_Name: HealthModifier
+  m_Name: MovementSpeedStat
   m_EditorClassIdentifier: 
-  StatType: 0
+  StatType: 4
+  BaseStatValue: 100
+  StatGrowthValue: 1
+  StatFactor: 50
+  BaseLevelThreshold: 10
+  LevelThresholdModifier: 20

@@ -5,12 +5,13 @@ using UnityEngine;
 public class SOStatLevelModifier : ScriptableObject
 {
     public EStatType StatType;
-    public List<SStatModifier> ModifierList = new List<SStatModifier>();
-}
+    
+    [Header("Stats")]
+    [Range(0, 100)] public float BaseStatValue = 0;
+    [Range(0, 20)] public float StatGrowthValue = 0;
+    [Range(1, 1000)] public float StatFactor = 1;
 
-[System.Serializable]
-public struct SStatModifier
-{
-    public int levelUpCount;
-    public float modifier;
+    [Header("Level")]
+    [Range(0, 100)] public int BaseLevelThreshold = 0;
+    [Range(0, 20)] public int LevelThresholdModifier = 0;
 }
