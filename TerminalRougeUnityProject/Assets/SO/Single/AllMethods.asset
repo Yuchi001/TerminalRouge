@@ -9,12 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cb84e9b0aad43368976238571e336f6, type: 3}
-  m_Name: RangeStat
+  m_Script: {fileID: 11500000, guid: 130c09740adf40ae97bff02b63510ff8, type: 3}
+  m_Name: AllMethods
   m_EditorClassIdentifier: 
-  StatType: 0
-  BaseStatValue: 75
-  StatGrowthValue: 1
-  StatFactor: 25
-  BaseLevelThreshold: 10
-  LevelThresholdModifier: 11
+  AllMethods:
+  - {fileID: 11400000, guid: 867f0849798f99d4186e0f9dc1a7cfcf, type: 2}
