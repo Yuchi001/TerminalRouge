@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 130c09740adf40ae97bff02b63510ff8, type: 3}
-  m_Name: AllMethods
+  m_Script: {fileID: 11500000, guid: 7860259ad79d40da8fed962eb761b9ff, type: 3}
+  m_Name: Cls
   m_EditorClassIdentifier: 
-  AllMethods:
-  - {fileID: 11400000, guid: 867f0849798f99d4186e0f9dc1a7cfcf, type: 2}
-  - {fileID: 11400000, guid: d99626ab3d0faa942947b9f57917c841, type: 2}
+  methodName: cls
+  parametersCount: 0
+  flags: 

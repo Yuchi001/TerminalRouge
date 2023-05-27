@@ -36,6 +36,10 @@ public class Terminal : MonoBehaviour
 
     public void OnEnterInput(string value)
     {
+        value = value.Replace('\n', ' ');
+        if (value.Trim() == "")
+            return;
+         
         Print(value, false);
         var values = value.Split(' ').ToList();
         var methodName = values[0].ToLower();
@@ -67,14 +71,23 @@ public class Terminal : MonoBehaviour
         var log = Instantiate(inputPrefab, currentInputTransform.position, Quaternion.identity, contentParent);
         var lines = log.GetComponent<SubmitedTextBehaviour>().SetTextField(value, nextLineCharactersCount, asText);
         TextInputs.Add(log);
-        
-        Debug.Log(lines);
+
         currentInput.text = "";
         currentInput.ActivateInputField();
         currentInput.Select();
         currentInputTransform.position += new Vector3(0, padding * lines, 0);
     }
 
+    public void ClearConsole()
+    {
+        foreach (var textInput in TextInputs)
+        {
+            Destroy(textInput);
+        }
+
+        currentInput.transform.position = inputStartPos;
+    }
+    
     public void Error_CustomError(string message)
     {
         Print($"<color=red>{message}</color>", true);
