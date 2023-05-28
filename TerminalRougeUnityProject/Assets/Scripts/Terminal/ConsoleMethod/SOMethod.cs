@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class SOMethod : ScriptableObject
 {
     [SerializeField] protected string methodName;
-    [SerializeField, Range(0, 5)] protected int parametersCount = 0;
+    [SerializeField, Range(-1, 5)] protected int parametersCount = 0;
     [SerializeField] protected List<EFlagType> flags = new List<EFlagType>();
-
     protected int flagsCount => flags.Count;
 
     public void RunMethod(Terminal terminal, List<string>
@@ -16,7 +16,7 @@ public class SOMethod : ScriptableObject
         passedParameters ??= new List<string>();
         passedFlags ??= new List<string>();
 
-        if (passedParameters.Count != parametersCount)
+        if (passedParameters.Count != parametersCount && parametersCount != -1)
         {
             terminal.Error_WrongParametersCount(parametersCount, passedParameters.Count);
             return;

@@ -80,6 +80,9 @@ public class Terminal : MonoBehaviour
 
                 return;
             }
+
+            if (val.Trim() == "")
+                return;
             
             parameters.Add(val);
         });

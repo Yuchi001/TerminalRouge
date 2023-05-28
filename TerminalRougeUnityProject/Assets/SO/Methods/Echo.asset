@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Echo
   m_EditorClassIdentifier: 
   methodName: echo
-  parametersCount: 1
+  parametersCount: -1
   flags: 

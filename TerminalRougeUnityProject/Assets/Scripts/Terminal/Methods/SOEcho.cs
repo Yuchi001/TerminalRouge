@@ -7,6 +7,9 @@ public sealed class SOEcho : SOMethod
 {
     protected override void OverrideMethod(Terminal terminal, List<string> passedParameters, List<string> passedFlags)
     {
-        terminal.Print(passedParameters[0], true);
+        passedParameters.ForEach(param =>
+        {
+            terminal.Print(param, true);
+        });
     }
 }

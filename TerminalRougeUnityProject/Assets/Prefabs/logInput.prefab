@@ -189,8 +189,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preText: {fileID: 5428011349401725893}
-  xOffSet: -0.33
+  xOffSet: -0.66
   maxWordLength: 8
+  lineHeight: 10
+  characterWidth: 1.25
 --- !u!222 &7359780309793648905
 CanvasRenderer:
   m_ObjectHideFlags: 0
