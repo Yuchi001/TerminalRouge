@@ -6,6 +6,7 @@ public class SubmitedTextBehaviour : MonoBehaviour
     [SerializeField] private GameObject preText;
     [SerializeField, Range(-1, 0)] private float xOffSet = -0.33f;
     [SerializeField, Range(0, 20)] private int maxWordLength = 8; 
+    [SerializeField, Range(0, 20)] private int lineHeight = 12; 
     private TMP_InputField textField => GetComponent<TMP_InputField>();
 
     public int SetTextField(string text, int maxLineCount, bool asText)
@@ -32,7 +33,7 @@ public class SubmitedTextBehaviour : MonoBehaviour
         }
         textField.text = text;
         textField.readOnly = true;
-        textField.textComponent.transform.parent.GetComponent<RectTransform>().offsetMin -= new Vector2(0, 14 * lines);
+        textField.textComponent.transform.parent.GetComponent<RectTransform>().offsetMin -= new Vector2(0, lineHeight * lines);
         return lines;
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public  class SOMethod : ScriptableObject
+public class SOMethod : ScriptableObject
 {
     [SerializeField] protected string methodName;
     [SerializeField, Range(0, 5)] protected int parametersCount = 0;

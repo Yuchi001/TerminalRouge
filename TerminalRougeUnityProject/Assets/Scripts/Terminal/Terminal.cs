@@ -25,8 +25,7 @@ public class Terminal : MonoBehaviour
     {
         currentInput.onSubmit.AddListener(OnEnterInput);
         inputStartPos = currentInput.transform.position;
-        currentInput.ActivateInputField();
-        currentInput.Select();
+        FocusInput();
     }
 
     private void OnDisable()
@@ -34,6 +33,12 @@ public class Terminal : MonoBehaviour
         currentInput.onSubmit.RemoveListener(OnEnterInput);
     }
 
+    public void FocusInput()
+    {
+        currentInput.Select();
+        currentInput.ActivateInputField();
+        currentInput.text = "";
+    }
     public void OnEnterInput(string value)
     {
         value = value.Replace('\n', ' ');
@@ -46,10 +51,37 @@ public class Terminal : MonoBehaviour
         values.RemoveAt(0);
         var parameters = new List<string>();
         var flags = new List<string>();
+        var paramInQuotationMark = "";
         values.ForEach(val =>
         {
-            if(val.StartsWith('-')) flags.Add(val);
-            else parameters.Add(val);
+            if (val.StartsWith('-'))
+            {
+                flags.Add(val);
+                return;
+            }
+            
+            if (val.StartsWith('"'))
+            {
+                paramInQuotationMark += val;
+                if (val.EndsWith('"'))
+                {
+                    parameters.Add(paramInQuotationMark.Replace('"', '\0'));
+                }
+                return;
+            }
+            
+            if (paramInQuotationMark != "")
+            {
+                paramInQuotationMark += " " + val.Replace('"', '\0');
+                if (val.EndsWith('"'))
+                {
+                    parameters.Add(paramInQuotationMark.Replace('"', '\0'));
+                }
+
+                return;
+            }
+            
+            parameters.Add(val);
         });
         foreach (var method in AllMethods)
         {
@@ -71,11 +103,9 @@ public class Terminal : MonoBehaviour
         var log = Instantiate(inputPrefab, currentInputTransform.position, Quaternion.identity, contentParent);
         var lines = log.GetComponent<SubmitedTextBehaviour>().SetTextField(value, nextLineCharactersCount, asText);
         TextInputs.Add(log);
-
-        currentInput.text = "";
-        currentInput.ActivateInputField();
-        currentInput.Select();
+        
         currentInputTransform.position += new Vector3(0, padding * lines, 0);
+        FocusInput();
     }
 
     public void ClearConsole()
@@ -87,6 +117,12 @@ public class Terminal : MonoBehaviour
 
         currentInput.transform.position = inputStartPos;
     }
+
+    //todo: ErrorComandNotRecognized
+    public void Error_CommandNotRecognized(string value)
+    {
+        
+    }
     
     public void Error_CustomError(string message)
     {
@@ -95,7 +131,9 @@ public class Terminal : MonoBehaviour
 
     public void Error_WrongParametersCount(int expected, int passed)
     {
-        Error_CustomError("gowno");
+        var parameters = new List<string>() { expected.ToString(), passed.ToString() };
+        var errorMessage = Errors.GetErrorMessage(EErrorType.wrongParameterCount, parameters);
+        Error_CustomError(errorMessage);
     }
 
     public void Error_FlagNotRecognized(string flag)
@@ -114,6 +152,12 @@ public struct SError
 
     public string GetError(List<string> parameters)
     {
+        if (parameters.Count == 0)
+        {
+            Debug.LogError("Passed empty list as error parameters, Terminal:157");
+            return "";
+        }
+
         var words =errorMessage.Split(' ');
         var paramIndex = 0;
         var error = "";
@@ -121,10 +165,10 @@ public struct SError
         foreach (var word in words)
         {
             var correctWord = word;
-            if (word == "<param>")
+            if (word.Contains("<param>"))
             {
                 paramIndex = parameters.Count <= paramIndex ? 0 : paramIndex;
-                correctWord = parameters[paramIndex];
+                correctWord = word.Replace("<param>", parameters[paramIndex]);
                 paramIndex++;
             }
 
