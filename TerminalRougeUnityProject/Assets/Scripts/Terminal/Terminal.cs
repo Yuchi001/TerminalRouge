@@ -15,9 +15,10 @@ public class Terminal : MonoBehaviour
     [SerializeField] private GameObject inputPrefab;
     [SerializeField] private TMP_InputField currentInput;
     [SerializeField, Range(-5, -0.1f)] private float padding = -0.5f;
+    [SerializeField, Range(0, 1)] private float scrollCooldown = 0.1f;
     [SerializeField] private SAllErrors Errors;
-    
 
+    private float scrollTimer = 0;
     private Vector2 inputStartPos;
     private List<SOMethod> AllMethods => allMethodsSO.AllMethods;
     private List<GameObject> TextInputs = new List<GameObject>();
@@ -31,6 +32,23 @@ public class Terminal : MonoBehaviour
     private void OnDisable()
     {
         currentInput.onSubmit.RemoveListener(OnEnterInput);
+    }
+
+    private void Update()
+    {
+        scrollTimer += Time.deltaTime;
+        var scrollConsoleInput = new Vector2Int(Input.GetKey(KeyCode.DownArrow) ? 1 : 0,Input.GetKey(KeyCode.UpArrow) ? 1 : 0);
+        if (scrollConsoleInput.x == scrollConsoleInput.y || scrollTimer < scrollCooldown)
+            return;
+
+        scrollTimer = 0;
+        var dir = new Vector3(0, padding * (scrollConsoleInput.x == 1 ? 1 : -1), 0);
+        currentInput.transform.position += dir;
+        foreach (var textInput in TextInputs)
+        {
+            textInput.transform.position += dir;
+            Debug.Log("Dziala");
+        }
     }
 
     public void FocusInput()
