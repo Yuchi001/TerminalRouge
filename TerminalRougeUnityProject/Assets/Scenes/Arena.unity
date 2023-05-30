@@ -1152,6 +1152,7 @@ MonoBehaviour:
   currentInput: {fileID: 1347635898}
   padding: -0.35
   scrollCooldown: 0.1
+  autoScrollLinesLimit: 21
   Errors:
     Errors:
     - errorType: 0

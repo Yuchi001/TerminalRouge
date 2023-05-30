@@ -16,39 +16,84 @@ public class Terminal : MonoBehaviour
     [SerializeField] private TMP_InputField currentInput;
     [SerializeField, Range(-5, -0.1f)] private float padding = -0.5f;
     [SerializeField, Range(0, 1)] private float scrollCooldown = 0.1f;
+    [SerializeField] private int autoScrollLinesLimit = 15;
     [SerializeField] private SAllErrors Errors;
 
     private float scrollTimer = 0;
     private Vector2 inputStartPos;
     private List<SOMethod> AllMethods => allMethodsSO.AllMethods;
     private List<GameObject> TextInputs = new List<GameObject>();
+    private int printedLines = 0;
+
     void Awake()
     {
+        InitializeTerminal();
+    }
+
+    public void InitializeTerminal()
+    {
+        //ClearConsole();
         currentInput.onSubmit.AddListener(OnEnterInput);
+        currentInput.onValueChanged.AddListener(OnValueChanged);
         inputStartPos = currentInput.transform.position;
         FocusInput();
     }
 
     private void OnDisable()
     {
+        currentInput.onValueChanged.RemoveListener(OnValueChanged);
         currentInput.onSubmit.RemoveListener(OnEnterInput);
     }
 
     private void Update()
     {
         scrollTimer += Time.deltaTime;
-        var scrollConsoleInput = new Vector2Int(Input.GetKey(KeyCode.DownArrow) ? 1 : 0,Input.GetKey(KeyCode.UpArrow) ? 1 : 0);
-        if (scrollConsoleInput.x == scrollConsoleInput.y || scrollTimer < scrollCooldown)
-            return;
+        Scroll();
+    }
+
+    private void OnValueChanged(string val)
+    {
+        if (printedLines >= autoScrollLinesLimit)
+        {
+            while (printedLines >= autoScrollLinesLimit)
+                Scroll(new Vector2Int(0, 1));
+        }
+    }
+
+    public void Scroll(Vector2Int? scrollInput = null)
+    {
+        var scrollConsoleInput = scrollInput ?? new Vector2Int();
+        if (scrollInput == null)
+        {
+            var scrollUp = CanScrollUp() ? 1 : 0;
+            var scrollDown = CanScrollDown() ? 1 : 0;
+            scrollConsoleInput = new Vector2Int(scrollUp,scrollDown);
+            if (scrollConsoleInput.x == scrollConsoleInput.y || scrollTimer < scrollCooldown)
+                return;
+        }
 
         scrollTimer = 0;
+        printedLines += scrollConsoleInput.x == 1 ? 1 : (scrollConsoleInput.y == 1 ? -1 : 0);
         var dir = new Vector3(0, padding * (scrollConsoleInput.x == 1 ? 1 : -1), 0);
         currentInput.transform.position += dir;
         foreach (var textInput in TextInputs)
-        {
             textInput.transform.position += dir;
-            Debug.Log("Dziala");
-        }
+    }
+
+    private bool CanScrollUp()
+    {
+        if (!TextInputs.Any())
+            return false;
+        
+        return UnityEngine.Input.GetKey(KeyCode.DownArrow) && 
+               Vector2.Distance(TextInputs[0].transform.position, inputStartPos) > 0.1f;
+    }
+    private bool CanScrollDown()
+    {
+        var posToCheck = currentInput.transform.position; //TextInputs.Any() ? TextInputs[0].transform.position : currentInput.transform.position;
+
+        return Input.GetKey(KeyCode.UpArrow) && printedLines >= autoScrollLinesLimit;
+        //Vector2.Distance(posToCheck, inputStartPos) > 0.1f;
     }
 
     public void FocusInput()
@@ -124,17 +169,26 @@ public class Terminal : MonoBehaviour
         var log = Instantiate(inputPrefab, currentInputTransform.position, Quaternion.identity, contentParent);
         var lines = log.GetComponent<SubmitedTextBehaviour>().SetTextField(value, nextLineCharactersCount, asText);
         TextInputs.Add(log);
-        
+
         currentInputTransform.position += new Vector3(0, padding * lines, 0);
         FocusInput();
+
+        printedLines += lines;
+        if (printedLines >= autoScrollLinesLimit)
+        {
+            while (printedLines >= autoScrollLinesLimit)
+                Scroll(new Vector2Int(0, 1));
+        }
     }
 
     public void ClearConsole()
     {
+        printedLines = 0;
         foreach (var textInput in TextInputs)
         {
             Destroy(textInput);
         }
+        TextInputs.Clear();
 
         currentInput.transform.position = inputStartPos;
     }
