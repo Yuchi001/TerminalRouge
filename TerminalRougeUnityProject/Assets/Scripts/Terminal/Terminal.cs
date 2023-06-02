@@ -17,6 +17,7 @@ public class Terminal : MonoBehaviour
     [SerializeField, Range(-5, -0.1f)] private float padding = -0.5f;
     [SerializeField, Range(0, 1)] private float scrollCooldown = 0.1f;
     [SerializeField] private int autoScrollLinesLimit = 15;
+    [SerializeField] private Scrollbar scrollbar;
     [SerializeField] private SAllErrors Errors;
 
     private float scrollTimer = 0;
@@ -24,6 +25,7 @@ public class Terminal : MonoBehaviour
     private List<SOMethod> AllMethods => allMethodsSO.AllMethods;
     private List<GameObject> TextInputs = new List<GameObject>();
     private int printedLines = 0;
+    private int totalPrintedLines = 0;
 
     void Awake()
     {
@@ -33,6 +35,7 @@ public class Terminal : MonoBehaviour
     public void InitializeTerminal()
     {
         //ClearConsole();
+        SetScrollbarValue(0, true);
         currentInput.onSubmit.AddListener(OnEnterInput);
         currentInput.onValueChanged.AddListener(OnValueChanged);
         inputStartPos = currentInput.transform.position;
@@ -58,6 +61,22 @@ public class Terminal : MonoBehaviour
             while (printedLines >= autoScrollLinesLimit)
                 Scroll(new Vector2Int(0, 1));
         }
+    }
+
+    private void SetScrollbarValue(int value, bool set)
+    {
+        Debug.Log(totalPrintedLines - printedLines);
+        totalPrintedLines += set ? -totalPrintedLines + value : value;
+        scrollbar.value =  1.0f / (totalPrintedLines - printedLines + 1);
+        if (totalPrintedLines - printedLines <= 0)
+        {
+            scrollbar.numberOfSteps = 1;
+            scrollbar.size = 1;
+            return;
+        }
+
+        scrollbar.numberOfSteps = totalPrintedLines - printedLines + 2;
+        scrollbar.size = 1.0f / (totalPrintedLines - printedLines);
     }
 
     public void Scroll(Vector2Int? scrollInput = null)
@@ -90,10 +109,7 @@ public class Terminal : MonoBehaviour
     }
     private bool CanScrollDown()
     {
-        var posToCheck = currentInput.transform.position; //TextInputs.Any() ? TextInputs[0].transform.position : currentInput.transform.position;
-
         return Input.GetKey(KeyCode.UpArrow) && printedLines >= autoScrollLinesLimit;
-        //Vector2.Distance(posToCheck, inputStartPos) > 0.1f;
     }
 
     public void FocusInput()
@@ -174,6 +190,7 @@ public class Terminal : MonoBehaviour
         FocusInput();
 
         printedLines += lines;
+        SetScrollbarValue(lines, false);
         if (printedLines >= autoScrollLinesLimit)
         {
             while (printedLines >= autoScrollLinesLimit)
@@ -184,6 +201,7 @@ public class Terminal : MonoBehaviour
     public void ClearConsole()
     {
         printedLines = 0;
+        SetScrollbarValue(0, true);
         foreach (var textInput in TextInputs)
         {
             Destroy(textInput);
