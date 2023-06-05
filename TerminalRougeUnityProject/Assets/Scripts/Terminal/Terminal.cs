@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -26,6 +27,14 @@ public class Terminal : MonoBehaviour
     private List<GameObject> TextInputs = new List<GameObject>();
     private int printedLines = 0;
     private int totalPrintedLines = 0;
+    private int visibleLinesCount = 0;
+
+    private float lastScrollValue = 0;
+
+    private int scrollNumOfSteps
+    {
+        get => totalPrintedLines - visibleLinesCount + 1;
+    }
 
     void Awake()
     {
@@ -35,9 +44,10 @@ public class Terminal : MonoBehaviour
     public void InitializeTerminal()
     {
         //ClearConsole();
-        SetScrollbarValue(0, true);
+        OnLinesPrinted(0, true);
         currentInput.onSubmit.AddListener(OnEnterInput);
         currentInput.onValueChanged.AddListener(OnValueChanged);
+        scrollbar.onValueChanged.AddListener(OnScrollBarValueChanged);
         inputStartPos = currentInput.transform.position;
         FocusInput();
     }
@@ -46,12 +56,13 @@ public class Terminal : MonoBehaviour
     {
         currentInput.onValueChanged.RemoveListener(OnValueChanged);
         currentInput.onSubmit.RemoveListener(OnEnterInput);
+        scrollbar.onValueChanged.RemoveListener(OnScrollBarValueChanged);
     }
 
     private void Update()
     {
-        scrollTimer += Time.deltaTime;
         Scroll();
+        //Debug.Log($"ScrollNum: {scrollNumOfSteps}, total: {totalPrintedLines}, visible: {visibleLinesCount}, variation1: {totalPrintedLines - printedLines}");
     }
 
     private void OnValueChanged(string val)
@@ -63,32 +74,134 @@ public class Terminal : MonoBehaviour
         }
     }
 
-    private void SetScrollbarValue(int value, bool set)
+    private void OnLinesPrinted(int lines, bool set)
     {
-        Debug.Log(totalPrintedLines - printedLines);
-        totalPrintedLines += set ? -totalPrintedLines + value : value;
-        scrollbar.value =  1.0f / (totalPrintedLines - printedLines + 1);
-        if (totalPrintedLines - printedLines <= 0)
-        {
-            scrollbar.numberOfSteps = 1;
-            scrollbar.size = 1;
+        totalPrintedLines += set ? -totalPrintedLines + lines : lines;
+        scrollbar.size = totalPrintedLines < autoScrollLinesLimit ? 1 : 1.0f - (1.0f - (float)visibleLinesCount / totalPrintedLines);
+        printedLines += lines;
+        var newVisibleLinesCount = visibleLinesCount + lines;
+        visibleLinesCount = newVisibleLinesCount > autoScrollLinesLimit ? autoScrollLinesLimit : newVisibleLinesCount;
+        if (printedLines >= autoScrollLinesLimit)
             return;
-        }
-
-        scrollbar.numberOfSteps = totalPrintedLines - printedLines + 2;
-        scrollbar.size = 1.0f / (totalPrintedLines - printedLines);
+        
+        while (printedLines >= autoScrollLinesLimit)
+            Scroll(new Vector2Int(0, 1));
     }
 
-    public void Scroll(Vector2Int? scrollInput = null)
+    public void OnScrollBarValueChanged(float value)
     {
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.UpArrow))
+        {
+            scrollbar.SetValueWithoutNotify(value);
+            return;
+        }
+        
+        var step = Mathf.RoundToInt(scrollbar.value * scrollNumOfSteps);
+        var lastStep = Mathf.RoundToInt(lastScrollValue * scrollNumOfSteps);
+        if (step == lastStep)
+            return;
+
+        if ((!CanScrollDown(true) && step < lastStep) 
+            || (!CanScrollUp(true) && step > lastStep)
+            || scrollNumOfSteps == 0)
+        {
+            if (scrollbar.value is 0 or 1) lastScrollValue = scrollbar.value;
+            return;
+        }
+        
+        if (step == lastStep) lastScrollValue = scrollbar.value;
+
+        //Debug.Log($"Step: {step}, StepCount: {scrollNumOfSteps}");
+        var dir = step > lastStep ? 1 : -1;
+        for(var i = lastStep + dir; (i <= step && dir == 1) || (i >= step && dir == -1); i+=dir)
+        {
+            var newValue = (float)i / scrollNumOfSteps;
+            scrollbar.SetValueWithoutNotify(newValue);
+            var scrollDir = new Vector2Int(dir == 1 ? 1 : 0, dir == -1 ? 1 : 0);
+            Scroll(scrollDir, false);
+            lastScrollValue = newValue;   
+        }
+
+        if (scrollbar.value is 0 or 1) lastScrollValue = scrollbar.value;
+        //Debug.Log($"EVENT\nLast: {lastScrollValue}, Current: {scrollbar.value}, LastStep:{lastStep}, Step:{step}");
+    }
+    
+    private void SetScrollValue_KeyboardInput(Vector2Int scrollConsoleInput)
+    {
+        if (totalPrintedLines - printedLines <= 0 || scrollNumOfSteps == 0)
+            return;
+        
+        var currentStep = Mathf.RoundToInt(scrollbar.value * scrollNumOfSteps);
+        var stepPoint = scrollConsoleInput.x != 0 ? 1 : (scrollConsoleInput.y != 0 ? -1 : 0);
+        var newValue = ((float)currentStep + stepPoint) / scrollNumOfSteps;
+        if (newValue is < 0 or > 1)
+            return;
+        
+        Debug.Log(currentStep);
+        
+        if (!CanScrollUp(true))
+        {
+            scrollbar.SetValueWithoutNotify(1);
+            lastScrollValue = 1;
+            //Debug.Log($"KEYBOARD\nLast: {lastScrollValue}, Current: {scrollbar.value}, LastStep:{0}, Step:{0}");
+            return;
+        }
+        if (!CanScrollDown(true))
+        {
+            scrollbar.SetValueWithoutNotify(0);
+            lastScrollValue = 0;
+            //Debug.Log($"KEYBOARD\nLast: {lastScrollValue}, Current: {scrollbar.value}, LastStep:{0}, Step:{0}");
+            return;
+        }
+        
+        scrollbar.SetValueWithoutNotify(newValue);
+        lastScrollValue = newValue;
+        //Debug.Log($"KEYBOARD\nLast: {lastScrollValue}, Current: {scrollbar.value}, LastStep:{currentStep}, Step:{currentStep + stepPoint}");
+    }
+
+    public void ScrollButton(int dir)
+    {
+        if (dir is not 1 and not -1)
+            return;
+
+        if ((dir == 1 && !CanScrollUp(true)) || (dir == -1 && !CanScrollDown(true)))
+            return;
+
+        var currentStep = Mathf.RoundToInt(scrollbar.value * scrollNumOfSteps);
+        var nextStep = currentStep + dir;
+        var nextStepValue = (float)nextStep / scrollNumOfSteps;
+        scrollbar.value = nextStepValue;
+        Debug.Log(nextStepValue);
+    }
+
+    public void Scroll(Vector2Int? scrollInput = null, bool setScrollValue = true)
+    {
+        scrollTimer += Time.deltaTime;
         var scrollConsoleInput = scrollInput ?? new Vector2Int();
         if (scrollInput == null)
         {
             var scrollUp = CanScrollUp() ? 1 : 0;
             var scrollDown = CanScrollDown() ? 1 : 0;
             scrollConsoleInput = new Vector2Int(scrollUp,scrollDown);
+
+            if (!CanScrollUp(true))
+            {
+                scrollbar.SetValueWithoutNotify(1);
+                lastScrollValue = 1;
+            }
+            else if (!CanScrollDown(true))
+            {
+                scrollbar.SetValueWithoutNotify(0);
+                lastScrollValue = 0;
+            }
+            
             if (scrollConsoleInput.x == scrollConsoleInput.y || scrollTimer < scrollCooldown)
                 return;
+        }
+
+        if (setScrollValue && scrollConsoleInput.x != scrollConsoleInput.y)
+        {
+            SetScrollValue_KeyboardInput(scrollConsoleInput);
         }
 
         scrollTimer = 0;
@@ -99,17 +212,17 @@ public class Terminal : MonoBehaviour
             textInput.transform.position += dir;
     }
 
-    private bool CanScrollUp()
+    private bool CanScrollUp(bool skipKeyCheck = false)
     {
         if (!TextInputs.Any())
             return false;
         
-        return UnityEngine.Input.GetKey(KeyCode.DownArrow) && 
+        return (Input.GetKey(KeyCode.DownArrow) || skipKeyCheck) && 
                Vector2.Distance(TextInputs[0].transform.position, inputStartPos) > 0.1f;
     }
-    private bool CanScrollDown()
+    private bool CanScrollDown(bool skipKeyCheck = false)
     {
-        return Input.GetKey(KeyCode.UpArrow) && printedLines >= autoScrollLinesLimit;
+        return (Input.GetKey(KeyCode.UpArrow) || skipKeyCheck) && printedLines >= autoScrollLinesLimit;
     }
 
     public void FocusInput()
@@ -188,20 +301,15 @@ public class Terminal : MonoBehaviour
 
         currentInputTransform.position += new Vector3(0, padding * lines, 0);
         FocusInput();
-
-        printedLines += lines;
-        SetScrollbarValue(lines, false);
-        if (printedLines >= autoScrollLinesLimit)
-        {
-            while (printedLines >= autoScrollLinesLimit)
-                Scroll(new Vector2Int(0, 1));
-        }
+        
+        OnLinesPrinted(lines, false);
     }
 
     public void ClearConsole()
     {
+        visibleLinesCount = 0;
         printedLines = 0;
-        SetScrollbarValue(0, true);
+        OnLinesPrinted(0, true);
         foreach (var textInput in TextInputs)
         {
             Destroy(textInput);
@@ -219,7 +327,7 @@ public class Terminal : MonoBehaviour
     
     public void Error_CustomError(string message)
     {
-        Print($"<color=red>{message}</color>", true);
+        Print($"<color=#cc3e33>{message}</color>", true);
     }
 
     public void Error_WrongParametersCount(int expected, int passed)
