@@ -15,4 +15,13 @@ MonoBehaviour:
   methodName: count
   parametersCount: 1
   flags: 
-  errorMessage: Wrong parameter type, be sure to enter integers only and try again!
+  generalInfo: debug method used to quickly fill many console lines.
+  parametersInfo:
+  - key: countNumber
+    value: Number to which method will count
+  flagInfo: []
+  countLimit: 100
+  parseToIntErrorMessage: Wrong parameter type, be sure to enter integers only and
+    try again!
+  tooBigNumErrorMessage: Given number is too big, please enter a number between 1
+    and 100.

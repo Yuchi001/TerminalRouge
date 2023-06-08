@@ -1,23 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "Methods/Count", fileName = "new CountMethod")]
 public class SOCount : SOMethod
 {
-    [SerializeField, TextArea(5, 20)] private string errorMessage;
+    [SerializeField, Range(1, 999)] private int countLimit = 100;
+    [SerializeField, TextArea(5, 20)] private string parseToIntErrorMessage;
+    [SerializeField, TextArea(5, 20)] private string tooBigNumErrorMessage;
     protected override void OverrideMethod(Terminal terminal, List<string> passedParameters, List<string> passedFlags)
     {
-        if (int.TryParse(passedParameters[0], out var number))
+        if (int.TryParse(passedParameters[0], out var number) == false)
         {
-            for (var i = 0; i < number; i++)
-            {
-                terminal.Print(i.ToString(), true);
-            }
-
+            terminal.Error_CustomError(parseToIntErrorMessage);
             return;
         }
-        
-        terminal.Error_CustomError(errorMessage);
+
+        if (number > countLimit)
+        {
+            terminal.Error_CustomError(tooBigNumErrorMessage);
+            return;
+        }
+            
+        for (var i = 0; i <= number; i++)
+        {
+            terminal.Print(i.ToString(), true);
+        }
     }
 }
