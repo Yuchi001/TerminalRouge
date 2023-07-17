@@ -10,9 +10,10 @@ public class SOInfo : SOMethod
     protected override void OverrideMethod(Terminal terminal, List<string>
         passedParameters, List<string> passedFlags)
     {
+        var parameterMethodName = passedParameters[0].ToLower();
         foreach (var method in allMethods.AllMethods)
         {
-            if (method.GetMethodName() != passedParameters[0]) continue;
+            if (method.GetMethodName().ToLower() != parameterMethodName) continue;
             
             var info = method.GetMethodInfo();
             terminal.Print(info, true);

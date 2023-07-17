@@ -15,3 +15,10 @@ MonoBehaviour:
   methodName: echo
   parametersCount: -1
   flags: 
+  generalInfo: "prints out given input, each given argument will \nbe printed in
+    a new line. To print a sentace without \na new line pass parameters in a quatation
+    marks."
+  parametersInfo:
+  - key: printParam
+    value: output that will be printed, you can pass how many argumentas you want.
+  flagInfo: []

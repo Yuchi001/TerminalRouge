@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c306d13897264b179bc0eda6871e8939, type: 3}
   m_Name: Info
   m_EditorClassIdentifier: 
-  methodName: Info
+  methodName: info
   parametersCount: 1
   flags: 
-  generalInfo: 
-  parametersInfo: []
+  generalInfo: prints information about a specified command
+  parametersInfo:
+  - key: command
+    value: name of an existing command
   flagInfo: []
   allMethods: {fileID: 11400000, guid: 9caefa8d9fbe8b346b138a3ebe31c9da, type: 2}
+  methodNameNotFoundErrorMessage: Given command name cannot be recognized, please
+    check for spelling mistakes and try again.

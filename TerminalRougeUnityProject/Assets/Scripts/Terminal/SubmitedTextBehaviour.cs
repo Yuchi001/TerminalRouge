@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -6,52 +7,44 @@ using UnityEngine.UI;
 
 public class SubmitedTextBehaviour : MonoBehaviour
 {
+    [SerializeField, Range(0, 100)] private float maxLinePercent = 90;
     [SerializeField] private Vector2 spawnOffset;
     [SerializeField, Range(0, 20)] private int maxWordLength = 8;
     private TextMeshProUGUI textField => GetComponentInChildren<TextMeshProUGUI>();
-    public (int lines, float yPos) SetTextField(string text, int maxLineCount, bool asText)
+    private RectTransform viewPortRect => Terminal.Instance.GetViewPortRect();
+    public float SetTextField(string text, bool asText)
     {
-        var lines = ManageSetTextField(text, maxLineCount, asText);
+        ManageSetTextField(text, asText);
         transform.position += (Vector3)spawnOffset;
-        var yPos = textField.preferredHeight;
-        return (lines, yPos);
+        var height = textField.preferredHeight;
+        return height;
     }
 
     public TextMeshProUGUI GetTextField()
     {
         return textField;
     }
-    private int ManageSetTextField(string text, int maxLineCount, bool asText)
+    private void ManageSetTextField(string text, bool asText)
     {
-        text = text.Replace('\n', '\0');
-        text = text.Replace("PS > ", "");
-        var lines = 1;
-        var wordLength = 0;
-        var insertLine = false;
+        //text = text.Replace('\n', '\0');
+        var maxLineWidth = viewPortRect.rect.width * (maxLinePercent / 100f);
+        textField.text = asText ? "" : "PS > ";
         for (var i = 0; i < text.Length; i++)
         {
-            wordLength += text[i] == ' ' ? -wordLength : 1;
-            if ((i >= maxLineCount && i % maxLineCount == 0) && text[i] != '@')
-                insertLine = true;
+            textField.text += text[i];
+            if(textField.preferredWidth < maxLineWidth)
+                continue;
 
-            if ((insertLine && (text[i] == ' ' || wordLength >= maxWordLength)) || text[i] == '@')
+            var wordLength = 0;
+            for (var j = textField.text.Length - 1; j < textField.text.Length; j--)
             {
-                lines++;
-                if (text[i] == '@')
-                {
-                    var sb = new StringBuilder(text){
-                        [i] = '\n'
-                    };
-                    text = sb.ToString();
-                }
-                else text = text.Insert(i + 1, "\n");
-                
-                wordLength = 0;
-                insertLine = false;
+                wordLength++;
+                if (textField.text[j] == ' ' || wordLength >= maxWordLength)
+                    break;
             }
+            textField.text = textField.text.Insert(textField.text.Length - wordLength + 1, "\n");
         }
-        textField.text = (asText ? "" : "PS > ") +  text;
 
-        return lines;
+        //textField.text = (asText ? "" : "PS > ") + text;
     }
 }

@@ -41,18 +41,22 @@ public class SOMethod : ScriptableObject
 
     public string GetMethodInfo()
     {
-        var info = "==================== I N F O =====================@";
-        info +=$"{methodName.Capitalize()}: {generalInfo}@{(parametersCount == 0 ? "" : "---------------------------- p a r a m s ----------------------------")}@";
+        var info = "==================== I N F O =====================\n\n";
+        info +=$"{methodName.Capitalize()}: {generalInfo}\n\n" +
+               $"{(parametersCount == 0 ? "" : "---------------------------- p a r a m s ----------------------------\n\n")}";
 
         var paramInfoCount = parametersCount != -1 ? parametersCount : 1;
         if (paramInfoCount > parametersInfo.Count)
             PopulateInfoLists_EM();
         
-        info = parametersInfo.Aggregate(info, (current, param) => current + $"{param.key}: {param.value}.@");
-        info += $"{(flagsCount == 0 ? "" : "------------------------------ f l a g s --------------------------------")}@";
-        info = flagInfo.Aggregate(info, (current, flag) => current + $"-{flag.key}: {flag.value}.@");
-        info += "===================== E N D ======================@";
-        return info;
+        if(parametersCount > 0)
+            info = parametersInfo.Aggregate(info, (current, param) => current + $"{param.key}: {param.value}.\n");
+        info += $"{(flagsCount == 0 ? "" : "\n\n------------------------------ f l a g s --------------------------------\n\n")}";
+        if(flags.Count > 0)
+            info = flagInfo.Aggregate(info, (current, flag) => current + $"-{flag.key}: {flag.value}.\n");
+        info += flags.Count > 0 || parametersCount > 0 ? '\n' : "";
+        info += "==================== E N D ======================\n";
+        return info.Color(EColorType.Yellow);
     }
 
     /// <summary>

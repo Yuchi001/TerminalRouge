@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class TerminalContentScaler : MonoBehaviour
 {
     [SerializeField] private RectTransform content;
-    [SerializeField] private Scrollbar scrollbar;
+    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private Terminal terminal;
 
     private void Awake()
     {
@@ -21,7 +22,7 @@ public class TerminalContentScaler : MonoBehaviour
 
     public void SetContentHeight()
     {
-        float height = content.anchoredPosition.y;
+        float height = 0;
         foreach (Transform child in transform)
         {
             if(!child.TryGetComponent<SubmitedTextBehaviour>(out var textBehaviour))
@@ -29,10 +30,10 @@ public class TerminalContentScaler : MonoBehaviour
 
             var textField = textBehaviour.GetTextField();
             float childHeight = textField.preferredHeight;
-            height += childHeight;
+            height += childHeight + terminal.GetPadding();
         }
 
         content.sizeDelta = new Vector2(content.sizeDelta.x, height);
-        scrollbar.SetValueWithoutNotify(0);
+        scrollRect.verticalNormalizedPosition = 0;
     }
 }
