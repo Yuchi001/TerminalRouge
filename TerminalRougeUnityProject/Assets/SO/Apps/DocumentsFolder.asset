@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: DocumentsFolder
   m_EditorClassIdentifier: 
   appName: Documents
-  appSprite: {fileID: 21300000, guid: 064593bc441094047a7077729867adb4, type: 3}
+  appSprite: {fileID: 21300000, guid: 67779be8df2d350418d7b2a34b5f3f4e, type: 3}
+  isFolder: 1
   appPrefab: {fileID: 0}

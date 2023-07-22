@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   appName: Programs
   appSprite: {fileID: 21300000, guid: 37a52262398bed54694cc4fce62060f0, type: 3}
+  isFolder: 1
   appPrefab: {fileID: 0}

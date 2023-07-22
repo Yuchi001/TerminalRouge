@@ -66,6 +66,7 @@ namespace UIElements
             isFolder = app.isFolder;
             programImage.sprite = app.appSprite;
             programName.text = app.appName;
+            arrowImage.gameObject.SetActive(app.isFolder);
         }
     }
 }
