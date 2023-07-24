@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new StatLevelModifier", menuName = "StatLevelModifier", order = 0)]
-public class SOStatLevelModifier : ScriptableObject
+[CreateAssetMenu(fileName = "new StatLevelModifier", menuName = "StatLevelModifier", order = 3)]
+public class SOStatLevelModifier : UnityEngine.ScriptableObject
 {
     public EStatType StatType;
     

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 66343085}
   - component: {fileID: 66343087}
   - component: {fileID: 66343086}
+  - component: {fileID: 66343088}
   m_Layer: 5
   m_Name: MainWindow
   m_TagString: Untagged
@@ -206,6 +207,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66343084}
   m_CullTransparentMesh: 1
+--- !u!114 &66343088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66343084}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa4221a0ef5ad894c952ff936e31fa28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allMethodsSO: {fileID: 11400000, guid: 9caefa8d9fbe8b346b138a3ebe31c9da, type: 2}
+  mainWindow: {fileID: 66343085}
+  contentParent: {fileID: 78445434}
+  inputPrefab: {fileID: 6905448243122687394, guid: 9ee7950a6fee1e7428e906181fb8e3c6, type: 3}
+  currentInput: {fileID: 1469045334}
+  scrollbar: {fileID: 447981722}
+  scrollRect: {fileID: 1112112334}
+  content: {fileID: 1196324090}
+  viewport: {fileID: 1112112330}
+  inputPadding: 2
+  Errors:
+    Errors:
+    - errorType: 0
+      errorMessage: 'Wrong parameter count, expected: <param>, got: <param>. Please
+        try again.'
+    - errorType: 1
+      errorMessage: Flag not recognized
+    - errorType: 2
+      errorMessage: '<param>: The term ''<param>'' is not recognized as the name
+        of a cmdlet, function, script file, or operable program. Check the spelling
+        of the name and try again.'
 --- !u!1 &78445433
 GameObject:
   m_ObjectHideFlags: 0
@@ -2694,8 +2728,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuParent: {fileID: 1462672222}
   menuItemPresets:
-  - {fileID: 11400000, guid: d9b5bdec3299fc14fb4b941c147d09cf, type: 2}
-  - {fileID: 11400000, guid: 57e647a59e4702744941ad6ba3ce0d84, type: 2}
+  - {fileID: 11400000, guid: d10fa784a9473d3428d970b012de2543, type: 2}
+  - {fileID: 11400000, guid: 13e8605099941d84a9b2f4c3075d1563, type: 2}
+  - {fileID: 11400000, guid: 159e828aeabfa684e8cede0317bfadd2, type: 2}
   menuItemPrefab: {fileID: 7457524615276906134, guid: f1186a3cd4fe86845bc42c79c07a1747, type: 3}
 --- !u!1 &1463041301
 GameObject:

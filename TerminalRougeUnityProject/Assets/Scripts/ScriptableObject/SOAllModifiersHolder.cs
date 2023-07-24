@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "new AllModifiersHolder", menuName = "Single/AllModifiersHolder")]
-public class SOAllModifiersHolder : ScriptableObject
+[CreateAssetMenu(fileName = "new AllModifiersHolder", menuName = "Single/AllModifiersHolder", order=2)]
+public class SOAllModifiersHolder : UnityEngine.ScriptableObject
 {
     [SerializeField] private List<SOStatLevelModifier> AllModifiersHolders = new List<SOStatLevelModifier>();
 

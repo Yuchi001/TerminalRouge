@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UIElements
 {
-    public class MenuOptionsController : MonoBehaviour
+    public class MenuOptionsController : FocusableUIElement
     {
         [SerializeField] private RectTransform menuParent;
         [SerializeField] private List<SOApp> menuItemPresets;
@@ -15,6 +15,12 @@ namespace UIElements
 
         private List<MenuItemPrefab> menuItems;
         private bool menuOpened = false;
+
+        public override void LoseFocus(bool recursive)
+        {
+            menuOpened = false;
+            gameObject.SetActive(false);
+        }
 
         private void Awake()
         {
@@ -26,7 +32,7 @@ namespace UIElements
                     Quaternion.identity, 
                     menuParent);
                 var itemPrefabScript = item.GetComponent<MenuItemPrefab>();
-                itemPrefabScript.Initiate(currentPreset, menuItems, i);
+                itemPrefabScript.Initiate(currentPreset, i, -1);
             }
             
             SetContentHeight();

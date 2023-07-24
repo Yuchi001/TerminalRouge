@@ -3,7 +3,7 @@ using System.Linq;
 using Helpers;
 using UnityEngine;
 
-public class SOMethod : ScriptableObject
+public class SOMethod : UnityEngine.ScriptableObject
 {
     [SerializeField] protected string methodName;
     [SerializeField, Range(-1, 5)] protected int parametersCount = 0;
