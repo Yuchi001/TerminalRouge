@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171c7a77658a4c76a027d8bdc27bcd5d, type: 3}
+  m_Name: Test6
+  m_EditorClassIdentifier: 
+  appName: 3
+  appSprite: {fileID: 21300000, guid: 37a52262398bed54694cc4fce62060f0, type: 3}
+  isFolder: 1
+  appPrefab: {fileID: 1406821762277685344, guid: 5cfe71290d7b6544ea44af817757125e, type: 3}
+  apps:
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: 13e8605099941d84a9b2f4c3075d1563, type: 2}
+  - {fileID: 11400000, guid: 159e828aeabfa684e8cede0317bfadd2, type: 2}
+  - {fileID: 11400000, guid: 159e828aeabfa684e8cede0317bfadd2, type: 2}
+  - {fileID: 11400000, guid: 159e828aeabfa684e8cede0317bfadd2, type: 2}
+  - {fileID: 11400000, guid: 159e828aeabfa684e8cede0317bfadd2, type: 2}
