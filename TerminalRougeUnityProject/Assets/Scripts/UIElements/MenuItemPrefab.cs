@@ -24,8 +24,8 @@ namespace UIElements
 
         private bool isClicked = false;
 
-        public int ID { get; private set; }
-        public int ContextID { get; private set; }
+        private new int ID { get; set; }
+        private int ContextID { get; set; }
 
         public override void LoseFocus(bool recursive)
         {

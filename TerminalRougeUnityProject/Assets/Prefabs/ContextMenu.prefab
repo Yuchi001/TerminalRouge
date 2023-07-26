@@ -35,11 +35,11 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -824.9098, y: 57.4}
-  m_SizeDelta: {x: 244.81, y: 77.98}
-  m_Pivot: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -824.9098, y: -944.62}
+  m_SizeDelta: {x: 244.81, y: 77.97998}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8573258884620741007
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -116,6 +116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc3af4f78616495e8d9340cdd4e2364d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiName: contextMenu
   menuParent: {fileID: 4028169662789850691}
   menuItemPrefab: {fileID: 7457524615276906134, guid: f1186a3cd4fe86845bc42c79c07a1747, type: 3}
-  anchorTop: 1

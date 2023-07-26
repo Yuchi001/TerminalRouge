@@ -123,6 +123,159 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &32770160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 32770161}
+  - component: {fileID: 32770166}
+  - component: {fileID: 32770165}
+  - component: {fileID: 32770164}
+  - component: {fileID: 32770163}
+  - component: {fileID: 32770162}
+  - component: {fileID: 32770167}
+  m_Layer: 5
+  m_Name: Desktop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &32770161
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32770160}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1891408603}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.000061035, y: -0.000030518}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!50 &32770162
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32770160}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &32770163
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32770160}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &32770164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32770160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e35855771414353bdcc28a5e9cab502, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &32770165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32770160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.003921569, g: 0.50980395, b: 0.5058824, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &32770166
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32770160}
+  m_CullTransparentMesh: 1
+--- !u!114 &32770167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32770160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5509a365c63a4236874b6fcc6339b161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorType: 0
+  manualSize: 0
 --- !u!1 &66343084
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +287,6 @@ GameObject:
   - component: {fileID: 66343085}
   - component: {fileID: 66343087}
   - component: {fileID: 66343086}
-  - component: {fileID: 66343088}
   m_Layer: 5
   m_Name: MainWindow
   m_TagString: Untagged
@@ -162,7 +314,7 @@ RectTransform:
   - {fileID: 1251067703}
   - {fileID: 2086424580}
   m_Father: {fileID: 1891408603}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -207,39 +359,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66343084}
   m_CullTransparentMesh: 1
---- !u!114 &66343088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 66343084}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa4221a0ef5ad894c952ff936e31fa28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allMethodsSO: {fileID: 11400000, guid: 9caefa8d9fbe8b346b138a3ebe31c9da, type: 2}
-  mainWindow: {fileID: 66343085}
-  contentParent: {fileID: 78445434}
-  inputPrefab: {fileID: 6905448243122687394, guid: 9ee7950a6fee1e7428e906181fb8e3c6, type: 3}
-  currentInput: {fileID: 1469045334}
-  scrollbar: {fileID: 447981722}
-  scrollRect: {fileID: 1112112334}
-  content: {fileID: 1196324090}
-  viewport: {fileID: 1112112330}
-  inputPadding: 2
-  Errors:
-    Errors:
-    - errorType: 0
-      errorMessage: 'Wrong parameter count, expected: <param>, got: <param>. Please
-        try again.'
-    - errorType: 1
-      errorMessage: Flag not recognized
-    - errorType: 2
-      errorMessage: '<param>: The term ''<param>'' is not recognized as the name
-        of a cmdlet, function, script file, or operable program. Check the spelling
-        of the name and try again.'
 --- !u!1 &78445433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1589,7 +1708,7 @@ RectTransform:
   - {fileID: 1668246162}
   - {fileID: 1462672222}
   m_Father: {fileID: 1891408603}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2726,10 +2845,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd902297f0924eaca0629b38c07be774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiName: 
   menuParent: {fileID: 1462672222}
   menuItemPresets:
-  - {fileID: 11400000, guid: d10fa784a9473d3428d970b012de2543, type: 2}
   - {fileID: 11400000, guid: 13e8605099941d84a9b2f4c3075d1563, type: 2}
+  - {fileID: 11400000, guid: 6d0721041ed1cb348b72cd18d5bbbd4b, type: 2}
+  - {fileID: 11400000, guid: d10fa784a9473d3428d970b012de2543, type: 2}
   - {fileID: 11400000, guid: 159e828aeabfa684e8cede0317bfadd2, type: 2}
   menuItemPrefab: {fileID: 7457524615276906134, guid: f1186a3cd4fe86845bc42c79c07a1747, type: 3}
 --- !u!1 &1463041301
@@ -3354,7 +3475,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1891408603}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -4078,6 +4199,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 32770161}
   - {fileID: 66343085}
   - {fileID: 851056753}
   - {fileID: 1694056135}

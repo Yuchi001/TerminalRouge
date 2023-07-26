@@ -32,7 +32,7 @@ namespace UIElements
                     Quaternion.identity, 
                     menuParent);
                 var itemPrefabScript = item.GetComponent<MenuItemPrefab>();
-                itemPrefabScript.Initiate(currentPreset, i, -1);
+                itemPrefabScript.Initiate(currentPreset, i, GetInstanceID());
             }
             
             SetContentHeight();

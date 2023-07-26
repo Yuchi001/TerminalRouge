@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Run
   m_EditorClassIdentifier: 
   appName: Run...
-  appSprite: {fileID: 0}
+  appSprite: {fileID: 21300000, guid: 1d6d93a858db7bf42bc9b4f888a67775, type: 3}
   isFolder: 0
   appPrefab: {fileID: 0}

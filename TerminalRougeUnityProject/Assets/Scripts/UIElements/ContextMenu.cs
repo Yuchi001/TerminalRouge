@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ScriptableObject.Apps;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,16 +12,10 @@ namespace UIElements
     {
         [SerializeField] private RectTransform menuParent;
         [SerializeField] private GameObject menuItemPrefab;
-        [SerializeField] private bool anchorTop = true;
-
-        private RectTransform rectTransform;
-        private int ID = 0;
         public override void Setup(SOApp app)
         {
             base.Setup(app);
 
-            ID = FindObjectsOfType<ContextMenu>().Length;
-            
             if (app is not SOFolder folder)
             {
                 Debug.LogError("Folder was not of 'folder' type.");
@@ -28,16 +23,10 @@ namespace UIElements
             }
 
             SetupApps(folder.apps);
-            rectTransform.anchorMax = new Vector2(0, 1);
-            rectTransform.anchorMin = new Vector2(0, 1);
-            rectTransform.localPosition = Vector3.zero;
-            rectTransform.anchoredPosition += 
-                new Vector2(rectTransform.sizeDelta.x, -rectTransform.sizeDelta.y / 2);
         }
 
         private void SetupApps(List<SOApp> apps)
         {
-            rectTransform = GetComponent<RectTransform>();
             for (var i = 0; i < apps.Count; i++)
             {
                 var currentPreset = apps[i];
@@ -49,11 +38,14 @@ namespace UIElements
                 itemPrefabScript.Initiate(currentPreset, i, ID);
             }
             
-            SetContextHeight();
+            SetContextPositionAndHeight();
         }
 
-        private void SetContextHeight()
+        private void SetContextPositionAndHeight()
         {
+            menuParent.anchorMax = new Vector2(0.5f, 1);
+            menuParent.anchorMin = new Vector2(0.5f, 1);
+            
             var layoutGroup = GetComponent<VerticalLayoutGroup>();
             var spacing = layoutGroup.spacing;
             var paddingTop = layoutGroup.padding.top;
@@ -64,6 +56,13 @@ namespace UIElements
             height += paddingBottom;
 
             menuParent.sizeDelta = new Vector2(menuParent.sizeDelta.x, height);
+
+            var parentRect = transform.parent.GetComponent<RectTransform>();
+            
+            menuParent.localPosition = Vector3.zero;
+            menuParent.anchoredPosition += 
+                new Vector2(menuParent.sizeDelta.x, 
+                    parentRect.rect.height / (menuParent.childCount + 1) + spacing * (menuParent.childCount + 1));
         }
     }
 }

@@ -11,6 +11,13 @@ namespace UIElements
 {
     public class AppController : MonoBehaviour
     {
+        public static AppController Instance { get; private set; }
+        private void Awake()
+        {
+            if (Instance != null && Instance != this) Destroy(gameObject);
+            else Instance = this;
+        }
+
         [SerializeField] private GameObject buttonParent;
         [SerializeField] private GameObject buttonPrefab;
         private List<App> activeApps = new List<App>();

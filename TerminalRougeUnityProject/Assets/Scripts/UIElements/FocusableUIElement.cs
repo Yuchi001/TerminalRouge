@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
 namespace UIElements
 {
     public abstract class FocusableUIElement : MonoBehaviour
     {
+        [SerializeField] protected string uiName;
+        protected int ID => GetInstanceID();
+
         public virtual void LoseFocus(bool recursive)
         {
             Destroy(gameObject);
@@ -15,5 +20,6 @@ namespace UIElements
             
             ui.LoseFocus(true);
         }
+
     }
 }
