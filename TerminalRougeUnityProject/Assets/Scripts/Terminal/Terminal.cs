@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UIElements;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class Terminal : MonoBehaviour, IInitializePotentialDragHandler
+public class Terminal : AppPrefab, IInitializePotentialDragHandler
 {
     [SerializeField] private SOAllMethods allMethodsSO;
     [SerializeField] private RectTransform mainWindow;
@@ -27,19 +28,17 @@ public class Terminal : MonoBehaviour, IInitializePotentialDragHandler
     private Vector3 startPos;
 
     public string CurrentInputText { get; private set; }
-    public Canvas MainCanvas { get; private set; }
-    public static Terminal Instance { get; private set; }
     public delegate void LinesPrintedDelegate();
     public static event LinesPrintedDelegate OnLinesPrintedEvent;
 
     #region Initialize
-    void Awake()
+
+    public override void Setup(SOApp app)
     {
-        if (Instance != this && Instance != null)
-            Destroy(gameObject);
-        else Instance = this;
+        base.Setup(app);
         
         InitializeTerminal();
+        FocusInput();
     }
 
     public void OnInitializePotentialDrag(PointerEventData eventData)
@@ -52,7 +51,6 @@ public class Terminal : MonoBehaviour, IInitializePotentialDragHandler
         currentInput.onSubmit.AddListener(OnEnterInput);
         currentInput.onSelect.AddListener(OnSelect);
         startPos = currentInput.transform.localPosition;
-        MainCanvas = GetComponent<Canvas>();
         FocusInput();
     }
 
@@ -71,7 +69,9 @@ public class Terminal : MonoBehaviour, IInitializePotentialDragHandler
     {
         var pointerEventData = (PointerEventData)data;
         
-        mainWindow.anchoredPosition += pointerEventData.delta / MainCanvas.scaleFactor;
+        mainWindow.anchoredPosition += pointerEventData.delta / MainCanvas.Instance.GetCanvas().scaleFactor;
+        
+        mainWindow.transform.SetAsLastSibling();
     }
 
     public void OnTerminalDragEnd()
@@ -90,22 +90,6 @@ public class Terminal : MonoBehaviour, IInitializePotentialDragHandler
         currentInput.SetTextWithoutNotify(currentText);
         currentInput.caretPosition = currentInput.text.Length;
     }
-
-    public void OnMinimize()
-    {
-        
-    }
-
-    public void OnClose()
-    {
-        
-    }
-
-    public void OnFullScreen()
-    {
-        
-    }
-
     public void OnScroll(int dir)
     {
         if (dir is 0)
@@ -122,11 +106,6 @@ public class Terminal : MonoBehaviour, IInitializePotentialDragHandler
 
     #region Getters
 
-    public RectTransform GetViewPortRect()
-    {
-        return viewport;
-    }
-    
     public float GetPadding()
     {
         return inputPadding;
@@ -224,7 +203,7 @@ public class Terminal : MonoBehaviour, IInitializePotentialDragHandler
         var log = Instantiate(inputPrefab, 
             currentInputTransform.position + new Vector3(0.06f, 0.05f, 0), 
             Quaternion.identity, contentParent);
-        var height = log.GetComponent<SubmitedTextBehaviour>().SetTextField(value, asText);
+        var height = log.GetComponent<SubmitedTextBehaviour>().SetTextField(value, asText, viewport);
         TextInputs.Add(log);
         
         var newPos = currentInputTransform.anchoredPosition;

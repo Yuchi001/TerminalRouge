@@ -29,7 +29,7 @@ namespace UIElements
 
         public override void LoseFocus(bool recursive)
         {
-            if(recursive) base.LoseFocus(true);
+            if (recursive) base.LoseFocus(true);
 
             isClicked = false;
             OnMouseExit();
@@ -91,7 +91,7 @@ namespace UIElements
             UnFocusFolder();
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             button.onClick.RemoveListener(OnClick);
         }
@@ -106,18 +106,13 @@ namespace UIElements
             
             var menuPrefabs = FindObjectsOfType<MenuItemPrefab>()
                 .Where(m => m.ContextID == ContextID && m.ID != ID).ToList();
-            foreach (var menuPrefab in menuPrefabs)
-            {
+            
+            foreach (var menuPrefab in menuPrefabs) 
                 menuPrefab.UnFocusFolder();
-            }
 
             if (isFolder && isClicked) return;
             
-            var appPrefab = Instantiate(app.appPrefab, 
-                Vector3.zero, Quaternion.identity, isFolder ? transform : null)
-                .GetComponent<AppPrefab>();
-            appPrefab.Setup(app);
-
+            AppController.Instance.OpenApp(app, isFolder ? transform : null);
             if (!transform.parent.TryGetComponent<FocusableUIElement>(out var ui))
                 return;
                 

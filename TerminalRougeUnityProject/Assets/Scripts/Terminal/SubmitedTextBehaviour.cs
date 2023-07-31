@@ -11,9 +11,11 @@ public class SubmitedTextBehaviour : MonoBehaviour
     [SerializeField] private Vector2 spawnOffset;
     [SerializeField, Range(0, 20)] private int maxWordLength = 8;
     private TextMeshProUGUI textField => GetComponentInChildren<TextMeshProUGUI>();
-    private RectTransform viewPortRect => Terminal.Instance.GetViewPortRect();
-    public float SetTextField(string text, bool asText)
+    private RectTransform viewPortRect;
+    public float SetTextField(string text, bool asText, RectTransform viewPortRect)
     {
+        this.viewPortRect = viewPortRect;
+        
         ManageSetTextField(text, asText);
         transform.position += (Vector3)spawnOffset;
         var height = textField.preferredHeight;

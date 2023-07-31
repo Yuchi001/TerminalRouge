@@ -117,5 +117,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiName: contextMenu
+  useButtons: 0
+  isApp: 0
+  closeButton: {fileID: 0}
+  maximizeButton: {fileID: 0}
+  minimizeButton: {fileID: 0}
   menuParent: {fileID: 4028169662789850691}
   menuItemPrefab: {fileID: 7457524615276906134, guid: f1186a3cd4fe86845bc42c79c07a1747, type: 3}

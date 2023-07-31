@@ -1,8 +1,5 @@
-﻿using System;
-using UIElements;
-using Unity.VisualScripting;
+﻿using UIElements;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D), typeof(Image))]

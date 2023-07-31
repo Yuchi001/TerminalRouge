@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 978599bf516647ddb027e1905b454d67, type: 3}
+  m_Name: Terminal
+  m_EditorClassIdentifier: 
+  appName: Terminal
+  appSprite: {fileID: 21300000, guid: 7a71fe7d6a36c1f45b70a30baab5ad4f, type: 3}
+  isFolder: 0
+  appPrefab: {fileID: 6460643242572336381, guid: 17a1074c4d2faf7418712e15a8fc3aea, type: 3}
